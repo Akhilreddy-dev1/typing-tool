@@ -2,11 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
+const asset = (file) => `${import.meta.env.BASE_URL}characters/${file}`;
+
 const characters = [
-  { id: 'ichigo', name: 'Ichigo Kurosaki', series: 'BLEACH', image: '/characters/ichigo.webp', mark: 'BANKAI', quote: 'A blade is only as strong as the resolve behind it.', color: '#c45538' },
-  { id: 'sunjinwoo', name: 'Sung Jin-Woo', series: 'SOLO LEVELING', image: '/characters/sunjinwoo.webp', mark: 'LEVEL UP', quote: 'The next level is not given. It is earned one run at a time.', color: '#5f667d' },
-  { id: 'gojo', name: 'Satoru Gojo', series: 'JUJUTSU KAISEN', image: '/characters/gojo.webp', mark: 'LIMITLESS', quote: 'Take the space you need. Then make every keystroke count.', color: '#5c7c79' },
-  { id: 'tanjiro', name: 'Tanjiro Kamado', series: 'DEMON SLAYER', image: '/characters/tanjiro.jpg', mark: 'TOTAL FOCUS', quote: 'A steady hand can carry you farther than a hurried one.', color: '#a76e3e' },
+  { id: 'ichigo', name: 'Ichigo Kurosaki', series: 'BLEACH', image: asset('ichigo.webp'), mark: 'BANKAI', quote: 'A blade is only as strong as the resolve behind it.', color: '#c45538' },
+  { id: 'sunjinwoo', name: 'Sung Jin-Woo', series: 'SOLO LEVELING', image: asset('sunjinwoo.webp'), mark: 'LEVEL UP', quote: 'The next level is not given. It is earned one run at a time.', color: '#5f667d' },
+  { id: 'gojo', name: 'Satoru Gojo', series: 'JUJUTSU KAISEN', image: asset('gojo.webp'), mark: 'LIMITLESS', quote: 'Take the space you need. Then make every keystroke count.', color: '#5c7c79' },
+  { id: 'tanjiro', name: 'Tanjiro Kamado', series: 'DEMON SLAYER', image: asset('tanjiro.jpg'), mark: 'TOTAL FOCUS', quote: 'A steady hand can carry you farther than a hurried one.', color: '#a76e3e' },
 ];
 
 const passages = [
@@ -15,13 +17,23 @@ const passages = [
   'Good typing is less about rushing and more about knowing where to return.',
 ];
 
+function readHistory() {
+  try {
+    const value = JSON.parse(localStorage.getItem('typeanimeHistory') || '[]');
+    return Array.isArray(value) ? value.filter((item) => item && typeof item.wpm === 'number') : [];
+  } catch {
+    localStorage.removeItem('typeanimeHistory');
+    return [];
+  }
+}
+
 function App() {
   const [activeId, setActiveId] = useState('ichigo');
   const [passage, setPassage] = useState(passages[0]);
   const [typed, setTyped] = useState('');
   const [startedAt, setStartedAt] = useState(null);
   const [clock, setClock] = useState(Date.now());
-  const [history, setHistory] = useState(() => JSON.parse(localStorage.getItem('typeanimeHistory') || '[]'));
+  const [history, setHistory] = useState(readHistory);
   const [player, setPlayer] = useState(() => localStorage.getItem('typeanimePlayer') || '');
   const active = characters.find((character) => character.id === activeId);
   const completed = typed.length >= passage.length && typed === passage;
