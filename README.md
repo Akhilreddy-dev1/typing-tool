@@ -1,25 +1,17 @@
-# ⚡ TypeAnime - Touch Typing Mastery
+# ⚡ TypeAnime - The Anime Typing Dojo
 
-Master touch typing with your favorite anime characters! An interactive typing trainer featuring characters from **Demon Slayer**, **Solo Leveling**, **Jujutsu Kaisen**, and **Bleach**.
+TypeAnime is a focused, anime-inspired typing trainer for building speed, accuracy, and consistency. It is a single dependency-free page that works on GitHub Pages and keeps your progress in the browser.
 
 ## ✨ Features
 
-- **🎯 Interactive Anime Characters** - Learn with Tanjiro, Sung Jin-Woo, Gojo, and Ichigo
-- **📚 Comprehensive Lessons** - 30+ lessons from beginner to advanced
-- **⌨️ Touch Typing Tutorials** - Master home row, top row, bottom row, and beyond
-- **🎮 Multiple Test Modes**
-  - Beginner Tests
-  - Intermediate Tests
-  - Advanced Tests
-  - Code Typing Practice
-  - Anime Quotes Challenge
-  - Blind Typing Tests
-- **📊 Progress Tracking** - All data saved locally, no login required
-- **💡 Real-Time Tips** - Character-specific guidance as you type
-- **⚡ Live Stats** - Track WPM, accuracy, errors, and time
-- **🎨 Visual Keyboard** - See which keys to press
-- **🌓 Dark/Light Theme** - Automatic theme detection
-- **📱 Fully Responsive** - Works on desktop, tablet, and mobile
+- **🌌 3D-feeling landing page** - Layered gradients, orbiting feature card, motion, and responsive layout
+- **🧑‍🎤 Character coaches** - Browse one portrait at a time with arrow controls, tips, and completion dialogue
+- **⌨️ Live practice arena** - WPM, accuracy, errors, timer, highlighted keyboard key, and guided lessons
+- **🏆 Hall of Legends leaderboard** - Save a display name and rank your best local runs
+- **✨ Completion rewards** - Every completed run opens a result card with XP and a character quote
+- **📈 Progress tracking** - History, averages, personal best, skill level, and test completion meter
+- **🌓 Theme toggle** - Switch between the vivid dark dojo and a light reading mode
+- **📱 Responsive by default** - Works on desktop, tablet, and mobile widths
 
 ## 🚀 Quick Start
 
@@ -31,9 +23,11 @@ Master touch typing with your favorite anime characters! An interactive typing t
    start index.html
    ```
 
-2. **Select Your Character** - Choose your favorite anime character as your typing coach
+2. **Select your coach** - Choose a character card to change tips and completion rewards
 
-3. **Start Typing** - Click "Start Test" and begin improving your skills!
+3. **Start typing** - Choose a lesson or press **Start test**, then type the highlighted passage
+
+4. **Save your name** - Add a display name to the leaderboard after a run; all entries stay local to this browser
 
 ## 🎮 How to Use
 
@@ -44,23 +38,8 @@ Choose from four legendary characters:
 - **Satoru Gojo** (Jujutsu Kaisen) - Master technique and form
 - **Ichigo Kurosaki** (Bleach) - Channel your determination
 
-### Lessons
-Progress through structured lessons:
-1. Home Row Basics (ASDF JKL;)
-2. Top Row Introduction (QWER UIOP)
-3. Bottom Row Practice (ZXCV BNM)
-4. Numbers and Punctuation
-5. Capital Letters and Symbols
-6. Speed Building Exercises
-
-### Tests
-Challenge yourself with various test modes:
-- **Beginner** - Simple words and short sentences
-- **Intermediate** - Longer passages with punctuation
-- **Advanced** - Complex paragraphs and special characters
-- **Code Typing** - Practice programming syntax
-- **Anime Quotes** - Type memorable lines from your favorite series
-- **Blind Typing** - Ultimate challenge with hidden text
+### Lessons and modes
+The training map includes home-row, top-row, bottom-row, combined-letter, symbol, and speed-building drills. The practice arena rotates through beginner, intermediate, advanced, and anime quote passages.
 
 ### Progress Tracking
 Your progress is automatically saved including:
@@ -84,13 +63,23 @@ Your progress is automatically saved including:
 - Safari
 - Any modern browser with ES6+ support
 
-### Features
-- Real-time typing statistics
-- Character-specific motivational tips
-- Visual keyboard highlighting
-- Smooth animations and transitions
-- Theme-aware design (light/dark mode)
-- Mobile-friendly responsive layout
+### Storage
+No account or server is required. `localStorage` stores:
+- `typeAnimeHistory` for completed run statistics
+- `typeAnimeLeaderboard` for the top eight local scores
+- `typeAnimeCharacter` and `typeAnimePlayer` for preferences
+
+Character portraits use lightweight remote, anime-inspired avatar renders seeded with each character name, with emoji fallbacks if the image host is unavailable. This keeps the page fast and avoids redistributing copyrighted anime artwork.
+
+### Optional Python UI tools
+The browser app remains plain HTML/CSS/JavaScript for GitHub Pages. The optional Python helper makes maintenance easier:
+
+```bash
+python tools/app_tools.py check
+python tools/app_tools.py theme light
+```
+
+`check` validates the important HTML hooks and embedded JavaScript. `theme` applies the editable values in `ui_theme.json` to the CSS variables in `index.html`.
 
 ## 📊 Stats Explained
 
