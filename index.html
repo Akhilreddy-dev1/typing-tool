@@ -1,0 +1,1138 @@
+<title>TypeAnime - Touch Typing Mastery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #151b2e;
+    --bg-card: #1a2238;
+    --text-primary: #e8edf4;
+    --text-secondary: #9ca8be;
+    --accent-primary: #ff6b6b;
+    --accent-secondary: #4ecdc4;
+    --accent-glow: #ff6b6b80;
+    --progress-bg: #2a3550;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg-primary: #f5f7fa;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #1a2238;
+      --text-secondary: #5a6b8c;
+      --accent-primary: #ff6b6b;
+      --accent-secondary: #4ecdc4;
+      --accent-glow: #ff6b6b40;
+      --progress-bg: #e8edf4;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #1a2238;
+    --text-secondary: #5a6b8c;
+    --accent-primary: #ff6b6b;
+    --accent-secondary: #4ecdc4;
+    --accent-glow: #ff6b6b40;
+    --progress-bg: #e8edf4;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding-block: 0;
+    padding-inline: 16px;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  nav {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--text-primary);
+    background: var(--bg-card);
+  }
+
+  .hero {
+    text-align: center;
+    padding: 60px 0;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+
+  .character-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .character-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow);
+  }
+
+  .character-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-primary);
+    box-shadow: 0 12px 40px var(--accent-glow);
+  }
+
+  .character-card.selected {
+    border-color: var(--accent-primary);
+    background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+  }
+
+  .character-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  }
+
+  .character-name {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .character-series {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .typing-area {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    box-shadow: var(--shadow);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .text-display {
+    font-size: 24px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+    padding: 32px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    min-height: 120px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .char {
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .char.correct {
+    color: var(--accent-secondary);
+  }
+
+  .char.incorrect {
+    color: var(--accent-primary);
+    background: var(--accent-glow);
+  }
+
+  .char.current {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+
+  .input-area {
+    width: 100%;
+    padding: 20px;
+    font-size: 20px;
+    border: 2px solid var(--progress-bg);
+    border-radius: 12px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+  }
+
+  .input-area:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+  }
+
+  .character-tip {
+    margin-top: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--accent-primary)20, var(--accent-secondary)20);
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-primary);
+    display: flex;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .tip-avatar {
+    font-size: 40px;
+    flex-shrink: 0;
+  }
+
+  .tip-content {
+    flex: 1;
+  }
+
+  .tip-speaker {
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--accent-primary);
+  }
+
+  .tip-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .progress-section {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    box-shadow: var(--shadow);
+  }
+
+  .progress-header {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 32px;
+  }
+
+  .progress-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .progress-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .progress-bar {
+    height: 12px;
+    background: var(--progress-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 6px;
+    transition: width 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .lesson-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .lesson-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-secondary);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .lesson-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+
+  .lesson-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .lesson-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .lesson-status {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--accent-secondary);
+    font-weight: 600;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--accent-glow);
+  }
+
+  .btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 2px solid var(--progress-bg);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent-primary);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .keyboard-visual {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+
+  .keyboard-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .key {
+    min-width: 50px;
+    height: 50px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid var(--progress-bg);
+    transition: all 0.2s ease;
+  }
+
+  .key.highlight {
+    background: var(--accent-primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+
+  .key.space {
+    min-width: 300px;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 36px;
+    }
+
+    .typing-area {
+      padding: 24px;
+    }
+
+    .text-display {
+      font-size: 18px;
+      padding: 20px;
+    }
+
+    .character-selector {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .keyboard-row {
+      gap: 4px;
+    }
+
+    .key {
+      min-width: 32px;
+      height: 32px;
+      font-size: 11px;
+    }
+
+    .key.space {
+      min-width: 150px;
+    }
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+
+  .modal-content {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+
+  .modal-body {
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+</style>
+
+<div class="container">
+  <header>
+    <div class="logo">⚡ TypeAnime</div>
+    <nav>
+      <button class="nav-btn active" data-section="home">Home</button>
+      <button class="nav-btn" data-section="lessons">Lessons</button>
+      <button class="nav-btn" data-section="tests">Tests</button>
+      <button class="nav-btn" data-section="progress">Progress</button>
+    </nav>
+  </header>
+
+  <section id="home" class="section">
+    <div class="hero">
+      <h1>Master Touch Typing with Anime Characters</h1>
+      <p>Train with your favorite heroes from Demon Slayer, Solo Leveling, JJK, and Bleach. Level up your typing speed from beginner to pro!</p>
+    </div>
+
+    <div class="character-selector" id="characterSelector">
+      <div class="character-card" data-character="tanjiro">
+        <div class="character-avatar">🗡️</div>
+        <div class="character-name">Tanjiro Kamado</div>
+        <div class="character-series">Demon Slayer</div>
+      </div>
+      <div class="character-card" data-character="jinwoo">
+        <div class="character-avatar">⚔️</div>
+        <div class="character-name">Sung Jin-Woo</div>
+        <div class="character-series">Solo Leveling</div>
+      </div>
+      <div class="character-card" data-character="gojo">
+        <div class="character-avatar">👁️</div>
+        <div class="character-name">Satoru Gojo</div>
+        <div class="character-series">Jujutsu Kaisen</div>
+      </div>
+      <div class="character-card" data-character="ichigo">
+        <div class="character-avatar">🔥</div>
+        <div class="character-name">Ichigo Kurosaki</div>
+        <div class="character-series">Bleach</div>
+      </div>
+    </div>
+
+    <div class="typing-area">
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="wpmStat">0</div>
+          <div class="stat-label">WPM</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="accuracyStat">100</div>
+          <div class="stat-label">Accuracy %</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="errorsStat">0</div>
+          <div class="stat-label">Errors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="timerStat">0</div>
+          <div class="stat-label">Time (s)</div>
+        </div>
+      </div>
+
+      <div class="text-display" id="textDisplay"></div>
+      <input type="text" class="input-area" id="inputArea" placeholder="Start typing here...">
+
+      <div class="character-tip" id="characterTip">
+        <div class="tip-avatar">🗡️</div>
+        <div class="tip-content">
+          <div class="tip-speaker">Tanjiro</div>
+          <div class="tip-text">Keep your fingers on the home row! F and J are your anchors. You can do this!</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-primary" id="startBtn">Start Test</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="keyboard-visual" id="keyboardVisual">
+      <div class="keyboard-row">
+        <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">I</div><div class="key">O</div><div class="key">P</div>
+      </div>
+      <div class="keyboard-row">
+        <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key">L</div>
+      </div>
+      <div class="keyboard-row">
+        <div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div>
+      </div>
+      <div class="keyboard-row">
+        <div class="key space">SPACE</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lessons" class="section hidden">
+    <div class="progress-section">
+      <div class="progress-header">Touch Typing Lessons</div>
+      <p style="color: var(--text-secondary); margin-bottom: 32px;">Master touch typing step by step, from home row basics to advanced techniques.</p>
+
+      <div class="lesson-grid" id="lessonGrid"></div>
+    </div>
+  </section>
+
+  <section id="tests" class="section hidden">
+    <div class="progress-section">
+      <div class="progress-header">Typing Tests</div>
+      <p style="color: var(--text-secondary); margin-bottom: 32px;">Challenge yourself with various typing tests and track your improvement.</p>
+
+      <div class="lesson-grid">
+        <div class="lesson-card" data-test="beginner">
+          <div class="lesson-number">1</div>
+          <div class="lesson-title">Beginner Test</div>
+          <div class="lesson-desc">Simple words and short sentences. Perfect for starting out!</div>
+        </div>
+        <div class="lesson-card" data-test="intermediate">
+          <div class="lesson-number">2</div>
+          <div class="lesson-title">Intermediate Test</div>
+          <div class="lesson-desc">Longer sentences with punctuation and common phrases.</div>
+        </div>
+        <div class="lesson-card" data-test="advanced">
+          <div class="lesson-number">3</div>
+          <div class="lesson-title">Advanced Test</div>
+          <div class="lesson-desc">Complex paragraphs with numbers and special characters.</div>
+        </div>
+        <div class="lesson-card" data-test="code">
+          <div class="lesson-number">4</div>
+          <div class="lesson-title">Code Typing</div>
+          <div class="lesson-desc">Practice typing code snippets and programming syntax.</div>
+        </div>
+        <div class="lesson-card" data-test="anime">
+          <div class="lesson-number">5</div>
+          <div class="lesson-title">Anime Quotes</div>
+          <div class="lesson-desc">Type memorable quotes from your favorite anime series!</div>
+        </div>
+        <div class="lesson-card" data-test="blind">
+          <div class="lesson-number">6</div>
+          <div class="lesson-title">Blind Typing</div>
+          <div class="lesson-desc">Type without seeing the text. Ultimate challenge!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="progress" class="section hidden">
+    <div class="progress-section">
+      <div class="progress-header">Your Progress</div>
+      <p style="color: var(--text-secondary); margin-bottom: 32px;">Track your improvement over time. All data saved locally.</p>
+
+      <div class="stats" style="margin-bottom: 40px;">
+        <div class="stat-card">
+          <div class="stat-value" id="totalTestsStat">0</div>
+          <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="avgWpmStat">0</div>
+          <div class="stat-label">Avg WPM</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="bestWpmStat">0</div>
+          <div class="stat-label">Best WPM</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="avgAccStat">0</div>
+          <div class="stat-label">Avg Accuracy</div>
+        </div>
+      </div>
+
+      <div class="progress-bars">
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Overall Skill Level</span>
+            <span id="skillLevel">Beginner</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="skillProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Lessons Completed</span>
+            <span id="lessonsCompleted">0/30</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="lessonsProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>Tests Completed</span>
+            <span id="testsCompleted">0/50</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="testsProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Character data
+const characters = {
+  tanjiro: {
+    name: 'Tanjiro',
+    avatar: '🗡️',
+    tips: [
+      'Keep your fingers on the home row! F and J are your anchors. You can do this!',
+      'Focus on accuracy first, speed will come naturally. Patience is key!',
+      'Take breaks when your hands feel tired. Recovery is part of training!',
+      'Remember: Each keystroke is like a sword technique. Master the basics first!'
+    ]
+  },
+  jinwoo: {
+    name: 'Sung Jin-Woo',
+    avatar: '⚔️',
+    tips: [
+      'Every mistake is experience points. Learn from them and level up!',
+      'Your typing speed is your power stat. Keep grinding to increase it!',
+      'Perfect accuracy is like a critical hit. Aim for it every time!',
+      'Remember: Even the weakest can become the strongest with dedication!'
+    ]
+  },
+  gojo: {
+    name: 'Gojo',
+    avatar: '👁️',
+    tips: [
+      'See through the keyboard with your mind. You don\'t need to look down!',
+      'Limitless potential starts with perfect form. Master your technique!',
+      'Speed without control is useless. Balance power with precision!',
+      'Your fingers are cursed with unlimited potential. Unleash them!'
+    ]
+  },
+  ichigo: {
+    name: 'Ichigo',
+    avatar: '🔥',
+    tips: [
+      'Strike the keys with confidence! Hesitation leads to errors!',
+      'Channel your focus like spiritual pressure. Let nothing distract you!',
+      'Every test is a battle. Face it with determination!',
+      'Your typing speed is your Bankai. Release it when you\'re ready!'
+    ]
+  }
+};
+
+// Typing texts for different levels
+const typingTexts = {
+  beginner: [
+    'The quick brown fox jumps over the lazy dog.',
+    'Practice makes perfect when you type every day.',
+    'Home row keys are the foundation of touch typing.',
+    'Keep your wrists elevated and fingers curved.'
+  ],
+  intermediate: [
+    'Touch typing is a valuable skill that improves productivity and reduces eye strain. Master it through consistent practice.',
+    'The home row position (ASDF JKL;) is where your fingers should always return. This anchor point makes touch typing possible.',
+    'Speed comes naturally after accuracy. Focus on hitting the right keys, and your speed will increase over time.'
+  ],
+  advanced: [
+    'Professional typists maintain consistent accuracy while achieving speeds of 60-80 WPM or higher. This requires muscle memory developed through deliberate practice.',
+    'The key to mastering touch typing is understanding finger zones: each finger is responsible for specific keys, and proper technique means never breaking this pattern.',
+    'Advanced typing involves minimal hand movement, proper posture, and rhythmic keystrokes that flow naturally without conscious thought about individual letters.'
+  ],
+  code: [
+    'function calculateWPM(chars, seconds) { return (chars / 5) / (seconds / 60); }',
+    'const typingData = { wpm: 0, accuracy: 100, errors: 0, time: 0 };',
+    'if (accuracy >= 95 && wpm > 60) { console.log("Excellent typing!"); }'
+  ],
+  anime: [
+    'If you have time to think of a beautiful end, then live beautifully until the end. - Gintoki',
+    'The moment people come to know love, they run the risk of carrying hate. - Obito',
+    'It\'s not the face that makes someone a monster, it\'s the choices they make with their lives. - Naruto'
+  ]
+};
+
+// Lessons data
+const lessons = [
+  { id: 1, title: 'Home Row Basics', desc: 'Learn ASDF JKL; - the foundation of touch typing', keys: 'asdf jkl;' },
+  { id: 2, title: 'Home Row Practice', desc: 'Master the home row with common word patterns', keys: 'asdf jkl;' },
+  { id: 3, title: 'Top Row Introduction', desc: 'Add QWER UIOP to your repertoire', keys: 'qwer uiop' },
+  { id: 4, title: 'Top Row Mastery', desc: 'Combine home and top rows fluidly', keys: 'all' },
+  { id: 5, title: 'Bottom Row Basics', desc: 'Learn ZXCV BNM, for complete coverage', keys: 'zxcv bnm,' },
+  { id: 6, title: 'All Letters Combined', desc: 'Practice all letters together smoothly', keys: 'all' },
+  { id: 7, title: 'Numbers Row', desc: 'Add numbers 1234567890 to your skills', keys: 'numbers' },
+  { id: 8, title: 'Common Punctuation', desc: 'Master . , ! ? and other punctuation', keys: 'punctuation' },
+  { id: 9, title: 'Capital Letters', desc: 'Practice using shift keys effectively', keys: 'capitals' },
+  { id: 10, title: 'Speed Building', desc: 'Focus on increasing your typing velocity', keys: 'all' }
+];
+
+// State management
+let currentCharacter = 'tanjiro';
+let currentText = '';
+let currentPosition = 0;
+let isTyping = false;
+let startTime = 0;
+let errors = 0;
+let timer = null;
+let testHistory = [];
+
+// Initialize
+function init() {
+  loadProgress();
+  setupEventListeners();
+  selectCharacter('tanjiro');
+  loadNewText('beginner');
+  updateProgressDisplay();
+  renderLessons();
+}
+
+function setupEventListeners() {
+  // Navigation
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const section = e.target.dataset.section;
+      showSection(section);
+    });
+  });
+
+  // Character selection
+  document.querySelectorAll('.character-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const character = e.currentTarget.dataset.character;
+      selectCharacter(character);
+    });
+  });
+
+  // Typing
+  const inputArea = document.getElementById('inputArea');
+  inputArea.addEventListener('input', handleInput);
+  inputArea.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') e.preventDefault();
+  });
+
+  // Buttons
+  document.getElementById('startBtn').addEventListener('click', startTest);
+  document.getElementById('resetBtn').addEventListener('click', resetTest);
+
+  // Test selection
+  document.querySelectorAll('[data-test]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const test = e.currentTarget.dataset.test;
+      loadNewText(test);
+      showSection('home');
+      startTest();
+    });
+  });
+}
+
+function showSection(sectionId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+  document.getElementById(sectionId).classList.remove('hidden');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+
+  if (sectionId === 'progress') {
+    updateProgressDisplay();
+  }
+}
+
+function selectCharacter(charId) {
+  currentCharacter = charId;
+  document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`[data-character="${charId}"]`).classList.add('selected');
+  updateTip();
+}
+
+function updateTip() {
+  const char = characters[currentCharacter];
+  const tip = char.tips[Math.floor(Math.random() * char.tips.length)];
+  document.querySelector('.tip-avatar').textContent = char.avatar;
+  document.querySelector('.tip-speaker').textContent = char.name;
+  document.querySelector('.tip-text').textContent = tip;
+}
+
+function loadNewText(difficulty = 'beginner') {
+  const texts = typingTexts[difficulty] || typingTexts.beginner;
+  currentText = texts[Math.floor(Math.random() * texts.length)];
+  displayText();
+}
+
+function displayText() {
+  const display = document.getElementById('textDisplay');
+  display.innerHTML = currentText.split('').map((char, i) => {
+    let className = 'char';
+    if (i < currentPosition) {
+      className += ' correct';
+    } else if (i === currentPosition) {
+      className += ' current';
+    }
+    return `<span class="${className}">${char === ' ' ? '&nbsp;' : char}</span>`;
+  }).join('');
+
+  highlightCurrentKey();
+}
+
+function highlightCurrentKey() {
+  document.querySelectorAll('.key').forEach(k => k.classList.remove('highlight'));
+
+  if (currentPosition < currentText.length) {
+    const currentChar = currentText[currentPosition].toUpperCase();
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+      if (key.textContent === currentChar ||
+          (currentChar === ' ' && key.classList.contains('space'))) {
+        key.classList.add('highlight');
+      }
+    });
+  }
+}
+
+function startTest() {
+  if (!isTyping) {
+    isTyping = true;
+    startTime = Date.now();
+    errors = 0;
+    currentPosition = 0;
+    document.getElementById('inputArea').value = '';
+    document.getElementById('inputArea').focus();
+
+    timer = setInterval(updateTimer, 100);
+    updateTip();
+  }
+}
+
+function resetTest() {
+  isTyping = false;
+  currentPosition = 0;
+  errors = 0;
+  if (timer) clearInterval(timer);
+
+  document.getElementById('inputArea').value = '';
+  document.getElementById('wpmStat').textContent = '0';
+  document.getElementById('accuracyStat').textContent = '100';
+  document.getElementById('errorsStat').textContent = '0';
+  document.getElementById('timerStat').textContent = '0';
+
+  loadNewText('beginner');
+}
+
+function handleInput(e) {
+  if (!isTyping) startTest();
+
+  const input = e.target.value;
+  const currentChar = currentText[currentPosition];
+
+  if (input[input.length - 1] === currentChar) {
+    currentPosition++;
+    if (currentPosition === currentText.length) {
+      finishTest();
+    }
+  } else {
+    errors++;
+  }
+
+  displayText();
+  updateStats();
+}
+
+function updateTimer() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('timerStat').textContent = elapsed;
+  updateStats();
+}
+
+function updateStats() {
+  const elapsed = (Date.now() - startTime) / 1000;
+  const wpm = Math.round((currentPosition / 5) / (elapsed / 60)) || 0;
+  const accuracy = Math.round(((currentPosition - errors) / currentPosition) * 100) || 100;
+
+  document.getElementById('wpmStat').textContent = wpm;
+  document.getElementById('accuracyStat').textContent = accuracy;
+  document.getElementById('errorsStat').textContent = errors;
+}
+
+function finishTest() {
+  isTyping = false;
+  if (timer) clearInterval(timer);
+
+  const elapsed = (Date.now() - startTime) / 1000;
+  const wpm = Math.round((currentText.length / 5) / (elapsed / 60));
+  const accuracy = Math.round(((currentPosition - errors) / currentPosition) * 100);
+
+  const result = {
+    wpm,
+    accuracy,
+    errors,
+    time: Math.round(elapsed),
+    character: currentCharacter,
+    date: Date.now()
+  };
+
+  testHistory.push(result);
+  saveProgress();
+
+  setTimeout(() => {
+    alert(`Test Complete!\n\nWPM: ${wpm}\nAccuracy: ${accuracy}%\nErrors: ${errors}\n\nGreat job!`);
+    resetTest();
+  }, 500);
+}
+
+function renderLessons() {
+  const grid = document.getElementById('lessonGrid');
+  grid.innerHTML = lessons.map(lesson => `
+    <div class="lesson-card">
+      <div class="lesson-number">${lesson.id}</div>
+      <div class="lesson-title">${lesson.title}</div>
+      <div class="lesson-desc">${lesson.desc}</div>
+      <div class="lesson-status">Click to start</div>
+    </div>
+  `).join('');
+}
+
+function updateProgressDisplay() {
+  try {
+    const totalTests = testHistory.length;
+    const avgWpm = totalTests > 0 ? Math.round(testHistory.reduce((sum, t) => sum + t.wpm, 0) / totalTests) : 0;
+    const bestWpm = totalTests > 0 ? Math.max(...testHistory.map(t => t.wpm)) : 0;
+    const avgAcc = totalTests > 0 ? Math.round(testHistory.reduce((sum, t) => sum + t.accuracy, 0) / totalTests) : 0;
+
+    document.getElementById('totalTestsStat').textContent = totalTests;
+    document.getElementById('avgWpmStat').textContent = avgWpm;
+    document.getElementById('bestWpmStat').textContent = bestWpm;
+    document.getElementById('avgAccStat').textContent = avgAcc;
+
+    let skillLevel = 'Beginner';
+    let skillPercent = Math.min((avgWpm / 100) * 100, 100);
+
+    if (avgWpm >= 80) {
+      skillLevel = 'Master';
+    } else if (avgWpm >= 60) {
+      skillLevel = 'Advanced';
+    } else if (avgWpm >= 40) {
+      skillLevel = 'Intermediate';
+    }
+
+    document.getElementById('skillLevel').textContent = skillLevel;
+    document.getElementById('skillProgress').style.width = skillPercent + '%';
+    document.getElementById('lessonsCompleted').textContent = `0/30`;
+    document.getElementById('lessonsProgress').style.width = '0%';
+    document.getElementById('testsCompleted').textContent = `${Math.min(totalTests, 50)}/50`;
+    document.getElementById('testsProgress').style.width = (Math.min(totalTests, 50) / 50 * 100) + '%';
+  } catch (e) {
+    console.error('Error updating progress:', e);
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem('typeAnimeHistory', JSON.stringify(testHistory));
+    localStorage.setItem('typeAnimeCharacter', currentCharacter);
+  } catch (e) {
+    console.error('Could not save progress:', e);
+  }
+}
+
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem('typeAnimeHistory');
+    if (saved) {
+      testHistory = JSON.parse(saved);
+    }
+    const savedChar = localStorage.getItem('typeAnimeCharacter');
+    if (savedChar) {
+      currentCharacter = savedChar;
+    }
+  } catch (e) {
+    console.error('Could not load progress:', e);
+    testHistory = [];
+  }
+}
+
+// Start the app
+init();
+</script>
