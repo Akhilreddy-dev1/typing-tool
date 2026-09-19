@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Oswald:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { font-synthesis: none; text-rendering: optimizeLegibility; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0A0A0A; }
+}
+
+@layer components {
+  .clay-card {
+    box-shadow: inset 0 -5px 7px rgba(0,0,0,.22), 10px 12px 0 rgba(0,0,0,.25), 0 20px 35px rgba(0,0,0,.18);
+  }
+}
+
+@layer utilities {
+  .soul-page { background: #0A0A0A; color: #fff; overflow: hidden; }
+  .soul-page:before { content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .2; background-image: radial-gradient(#fff 0.7px, transparent 0.7px); background-size: 13px 13px; mask-image: linear-gradient(110deg, #000, transparent 55%); z-index: 0; }
+  .soul-page > * { position: relative; z-index: 1; }
+  .soul-page .soul-header { border-bottom: 1px solid #ffffff22; }
+  .soul-page .soul-header a, .soul-page .soul-header span { color: #fff; }
+  .soul-page .soul-header a span { color: #E60012; }
+  .soul-page .hero-copy { position: relative; }
+  .soul-page .hero-copy:before { content: '斬'; position: absolute; left: -7rem; top: -5rem; color: #fff; opacity: .06; font: 700 18rem/1 'Oswald', sans-serif; }
+  .soul-page .hero-section { min-height: 680px; }
+  .soul-page .hero-section:after { content: ''; position: absolute; inset: 12% 0 auto 45%; height: 380px; pointer-events: none; background: radial-gradient(circle at 13% 22%, #E60012 0 2px, transparent 3px), radial-gradient(circle at 70% 12%, #00E5FF 0 1px, transparent 2px), radial-gradient(circle at 84% 68%, #fff 0 1px, transparent 2px), radial-gradient(circle at 42% 84%, #E60012 0 1px, transparent 2px); background-size: 180px 150px, 240px 210px, 130px 180px, 200px 190px; opacity: .55; animation: spirit-drift 9s steps(8,end) infinite alternate; }
+  .soul-page .hero-section h1 { color: #fff; font-family: 'Oswald', sans-serif; font-style: normal; text-transform: uppercase; letter-spacing: -.04em; }
+  .soul-page .hero-section h1 em { color: #E60012; font-style: normal; text-shadow: 7px 7px 0 #fff; }
+  .soul-page .hero-section p, .soul-page .hero-section .font-mono { color: #a6a6a6; }
+  .soul-page .hero-section a { border-color: #fff; background: #E60012; color: #fff; border-radius: 0; box-shadow: 7px 7px 0 #fff; transition: transform 100ms ease, box-shadow 100ms ease; }
+  .soul-page .hero-section a:hover { transform: translate(5px,5px); box-shadow: 2px 2px 0 #fff; background: #fff; color: #0A0A0A; }
+  .soul-page .hero-art:after { content: 'BLEACH / TYPE / 002'; position: absolute; right: -3.5rem; top: 45%; color: #fff; font: 600 10px/1 'JetBrains Mono', monospace; letter-spacing: .2em; transform: rotate(90deg); opacity: .5; }
+  .soul-page .hero-art > div:first-child { border-color: #E60012; border-radius: 0; }
+  .soul-page .hero-art .clay-card { border: 1px solid #fff; border-radius: 0; background: #171717; box-shadow: 12px 12px 0 #E60012; }
+  .soul-page .hero-art .clay-card img { filter: contrast(1.2) saturate(1.2); clip-path: polygon(0 0,100% 0,100% 91%,88% 100%,0 100%); }
+  .soul-page .hero-art .absolute.bottom-2 { border-radius: 0; box-shadow: 8px 8px 0 #fff; }
+  .soul-page #coaches { background: #fff; color: #0A0A0A; border-color: #0A0A0A; clip-path: polygon(0 4%,100% 0,100% 100%,0 96%); }
+  .soul-page #coaches .text-terracotta { color: #E60012; }
+  .soul-page #coaches .text-ink\/60 { color: #555; }
+  .soul-page #coaches .clay-card { border-color: #0A0A0A; border-radius: 0; background: #0A0A0A; box-shadow: 7px 7px 0 #E60012; }
+  .soul-page #coaches .clay-card > div { background: #fff; }
+  .soul-page #coaches .clay-card img { filter: contrast(1.15) grayscale(.35); }
+  .soul-page #coaches .clay-card:hover img { filter: contrast(1.15) grayscale(0); }
+  .soul-page #practice { background: #0A0A0A; color: #fff; }
+  .soul-page #practice .text-terracotta { color: #E60012; }
+  .soul-page #practice .border-ink\/20, .soul-page #practice .border-ink\/15 { border-color: #ffffff33; }
+  .soul-page #practice .text-ink\/60, .soul-page #practice .text-ink\/35 { color: #888; }
+  .soul-page #practice .clay-card { border: 1px solid #fff; border-radius: 0; background: #171717; box-shadow: 9px 9px 0 #E60012; }
+  .soul-page #practice textarea { color: #fff; border-color: #ffffff66; }
+  .soul-page #practice textarea:focus { border-color: #00E5FF; box-shadow: 0 3px 0 #00E5FF; }
+  .soul-page #practice aside { border-color: #ffffff33; }
+  .soul-page #history { background: #fff; color: #0A0A0A; clip-path: polygon(0 0,100% 5%,100% 100%,0 100%); }
+  .soul-page #history .text-oat, .soul-page #history .text-oat\/50 { color: #0A0A0A; }
+  .soul-page #history .text-terracotta { color: #E60012; }
+  .soul-page #history .divide-y, .soul-page #history .border-y { border-color: #0A0A0A33; }
+  .soul-page footer { color: #888; }
+  .soul-page button { border-radius: 0; }
+  .soul-page .font-display { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+  .soul-page .font-technical { font-family: 'Rajdhani', sans-serif; }
+  .soul-page .font-mono { font-family: 'JetBrains Mono', monospace; }
+  @keyframes spirit-drift { from { transform: translate3d(-8px, 5px, 0); } to { transform: translate3d(14px, -12px, 0); } }
+  @media (max-width: 640px) {
+    .soul-page .hero-section { min-height: auto; }
+    .soul-page .hero-copy:before { left: -2rem; top: -2rem; font-size: 10rem; }
+  }
+}
