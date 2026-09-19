@@ -18,6 +18,8 @@ TypeAnime is an aggressive anime typing trainer for building speed, accuracy, an
    npm run dev
    ```
 
+Do not open the repository root `index.html` with a plain static server. It is the Vite source entry and contains JSX. Use `npm run dev` locally, or deploy the generated `dist/` directory.
+
 2. **Select your coach** - Choose Ichigo, Sung Jin-Woo, Gojo, or Tanjiro to change the quote and practice context
 
 3. **Start typing** - Click the passage field and type the highlighted line
@@ -38,7 +40,7 @@ Choose from four legendary characters:
 npm run build
 ```
 
-The production output is written to `dist/` and can be deployed to GitHub Pages, Netlify, Vercel, or any static host.
+The production output is written to `dist/` and can be deployed to GitHub Pages, Netlify, Vercel, or any static host. The included `.github/workflows/deploy.yml` builds and publishes `dist/` automatically from `master`.
 
 ### Progress Tracking
 Your progress is automatically saved including:

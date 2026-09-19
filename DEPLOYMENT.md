@@ -6,19 +6,9 @@ Your TypeAnime app can be hosted for free on GitHub Pages. Follow these simple s
 
 ### Option 1: Automatic Deployment (Recommended)
 
-1. Go to your repository: https://github.com/Akhilreddy-dev1/typing-tool
-
-2. Click on **Settings** (top right)
-
-3. In the left sidebar, click **Pages**
-
-4. Under **Source**, select:
-   - Branch: `master`
-   - Folder: `/ (root)`
-
-5. Click **Save**
-
-6. Wait a few minutes, then visit:
+1. Push to `master`; the included GitHub Actions workflow runs `npm ci`, builds Vite, and deploys `dist/`.
+2. In repository **Settings → Pages**, set the source to **GitHub Actions** once.
+3. Wait for the workflow to finish, then visit:
    ```
    https://akhilreddy-dev1.github.io/typing-tool/
    ```
@@ -39,18 +29,13 @@ To run locally:
    cd typing-tool
    ```
 
-2. **Open in browser**
-   - Simply open `index.html` in your browser
-   - Or use a local server:
+2. **Run the Vite app**
    ```bash
-   # Python 3
-   python -m http.server 8000
-   
-   # Node.js (if you have http-server installed)
-   npx http-server
+   npm install
+   npm run dev
    ```
 
-3. **Visit** `http://localhost:8000`
+3. **Visit** the URL printed by Vite, usually `http://localhost:5173`
 
 ## Customization
 
