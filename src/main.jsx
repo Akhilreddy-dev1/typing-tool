@@ -17,6 +17,18 @@ const passages = [
   'Good typing is less about rushing and more about knowing where to return.',
 ];
 
+const modes = [
+  { id: 'beginner', name: 'Beginner', description: 'Short lines for clean accuracy.', passages },
+  { id: 'fast', name: 'Fast typing', description: 'A 30-second speed burst.', passages: ['Speed is built one decisive keystroke at a time.'] },
+  { id: 'blind', name: 'Blind typing', description: 'The passage disappears. Trust your hands.', passages: ['Keep your eyes away from the keys and let your muscle memory lead.'] },
+  { id: 'anime', name: 'Anime quotes', description: 'Type a line worthy of your coach.', passages: ['A blade is only as strong as the resolve behind it.'] },
+];
+
+const lessons = [
+  ['Home row reset', 'ASDF JKL;'], ['Top row attack', 'QWER UIOP'],
+  ['Bottom row control', 'ZXCV BNM'], ['Numbers and symbols', '1234567890 !?'],
+];
+
 function readHistory() {
   try {
     const value = JSON.parse(localStorage.getItem('typeanimeHistory') || '[]');
@@ -30,13 +42,16 @@ function readHistory() {
 function App() {
   const [activeId, setActiveId] = useState('ichigo');
   const [passage, setPassage] = useState(passages[0]);
+  const [modeId, setModeId] = useState('beginner');
   const [typed, setTyped] = useState('');
   const [startedAt, setStartedAt] = useState(null);
   const [clock, setClock] = useState(Date.now());
   const [history, setHistory] = useState(readHistory);
   const [player, setPlayer] = useState(() => localStorage.getItem('typeanimePlayer') || '');
   const active = characters.find((character) => character.id === activeId);
-  const completed = typed.length >= passage.length && typed === passage;
+  const mode = modes.find((item) => item.id === modeId) || modes[0];
+  const blind = modeId === 'blind';
+  const completed = (typed.length >= passage.length && typed === passage) || (modeId === 'fast' && elapsed >= 30);
   const elapsed = startedAt ? Math.max((clock - startedAt) / 1000, 1) : 0;
   const errors = [...typed].filter((letter, index) => letter !== passage[index]).length;
   const wpm = Math.round((typed.length / 5) / (elapsed / 60)) || 0;
@@ -64,11 +79,18 @@ function App() {
     resetRun();
   }
 
-  function resetRun() {
+  function resetRun(nextMode = modeId) {
+    const selected = modes.find((item) => item.id === nextMode) || modes[0];
+    setModeId(nextMode);
     setTyped('');
     setStartedAt(null);
     setClock(Date.now());
-    setPassage(passages[Math.floor(Math.random() * passages.length)]);
+    setPassage(selected.passages[Math.floor(Math.random() * selected.passages.length)]);
+  }
+
+  function chooseMode(nextMode) {
+    resetRun(nextMode);
+    document.getElementById('practice')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   function handleType(event) {
@@ -89,7 +111,7 @@ function App() {
       <header className="soul-header mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-10">
         <a className="font-technical text-sm font-bold uppercase tracking-[0.24em]" href="#top">Type<span className="text-terracotta">Anime</span></a>
         <nav className="hidden gap-8 font-mono text-[10px] uppercase tracking-[0.18em] text-ink/60 md:flex">
-          <a href="#coaches">Coaches</a><a href="#practice">Practice</a><a href="#history">History</a>
+          <a href="#coaches">Coaches</a><a href="#tests">Tests</a><a href="#lessons">Lessons</a><a href="#history">History</a>
         </nav>
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink/50">Issue 002 / 2026</span>
       </header>
@@ -120,15 +142,27 @@ function App() {
         </div>
       </section>
 
+      <section id="tests" className="border-y border-white/20 bg-ash px-6 py-16 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-mono text-[10px] uppercase tracking-[.2em] text-crimson">Test chamber</p>
+          <h2 className="mt-2 font-display text-5xl">Choose your pressure.</h2>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {modes.map((item, index) => <button key={item.id} onClick={() => chooseMode(item.id)} className={`mode-card ${modeId === item.id ? 'mode-card-active' : ''}`}><span className="mode-number">0{index + 1}</span><strong>{item.name}</strong><span>{item.description}</span></button>)}
+          </div>
+        </div>
+      </section>
+
       <section id="practice" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
-          <div><div className="mb-7 flex items-end justify-between border-b border-ink/20 pb-4"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-terracotta">Practice / {active.series}</p><h2 className="mt-2 font-display text-5xl tracking-[-.05em]">The daily passage</h2></div><button onClick={resetRun} className="font-mono text-[10px] uppercase tracking-[.15em] underline underline-offset-4">New passage</button></div>
+          <div><div className="mb-7 flex items-end justify-between border-b border-ink/20 pb-4"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-terracotta">Practice / {active.series} / {mode.name}</p><h2 className="mt-2 font-display text-5xl">The daily passage</h2></div><button onClick={() => resetRun()} className="font-mono text-[10px] uppercase tracking-[.15em] underline underline-offset-4">New passage</button></div>
             <p className="mb-4 font-technical text-sm text-ink/60">{active.quote}</p>
-            <div className="clay-card bg-[#f5efe3] p-6 sm:p-10"><div className="mb-8 font-mono text-lg leading-[2] tracking-[-.04em] sm:text-2xl">{passage.split('').map((letter, index) => <span key={`${letter}-${index}`} className={index < typed.length ? (typed[index] === letter ? 'text-terracotta' : 'bg-terracotta/20 text-terracotta') : index === typed.length ? 'border-b-2 border-terracotta text-charcoal' : 'text-ink/35'}>{letter === ' ' ? '\u00a0' : letter}</span>)}</div><textarea autoFocus value={typed} onChange={handleType} disabled={completed} className="min-h-28 w-full resize-none border-b border-ink/30 bg-transparent p-2 font-mono text-base text-charcoal outline-none placeholder:text-ink/30 focus:border-terracotta" placeholder="Start typing here..." aria-label="Type the passage" /><div className="mt-6 flex flex-wrap gap-8 border-t border-ink/15 pt-5 font-mono text-[10px] uppercase tracking-[.14em] text-ink/60"><span><b className="text-2xl text-charcoal">{wpm}</b> WPM</span><span><b className="text-2xl text-charcoal">{accuracy}%</b> accuracy</span><span><b className="text-2xl text-charcoal">{errors}</b> errors</span><span><b className="text-2xl text-charcoal">{Math.round(elapsed)}s</b> time</span></div></div>
+            <div className="clay-card bg-[#f5efe3] p-6 sm:p-10"><div className={`mb-8 font-mono text-lg leading-[2] tracking-[-.04em] sm:text-2xl ${blind ? 'blind-passage' : ''}`}>{passage.split('').map((letter, index) => <span key={`${letter}-${index}`} className={index < typed.length ? (typed[index] === letter ? 'text-terracotta' : 'bg-terracotta/20 text-terracotta') : index === typed.length ? 'border-b-2 border-terracotta text-charcoal' : 'text-ink/35'}>{letter === ' ' ? '\u00a0' : letter}</span>)}</div><textarea autoFocus value={typed} onChange={handleType} disabled={completed} className="min-h-28 w-full resize-none border-b border-ink/30 bg-transparent p-2 font-mono text-base text-charcoal outline-none placeholder:text-ink/30 focus:border-terracotta" placeholder={blind ? 'Blind mode: trust your hands...' : 'Start typing here...'} aria-label="Type the passage" /><div className="mt-6 flex flex-wrap gap-8 border-t border-ink/15 pt-5 font-mono text-[10px] uppercase tracking-[.14em] text-ink/60"><span><b className="text-2xl text-charcoal">{wpm}</b> WPM</span><span><b className="text-2xl text-charcoal">{accuracy}%</b> accuracy</span><span><b className="text-2xl text-charcoal">{errors}</b> errors</span><span><b className="text-2xl text-charcoal">{modeId === 'fast' ? `${Math.max(0, 30 - Math.round(elapsed))}s` : `${Math.round(elapsed)}s`}</b> time</span></div></div>
           </div>
           <aside className="border-l border-ink/20 pl-6"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-terracotta">Your mark</p><p className="mt-4 font-display text-7xl text-charcoal">{best}</p><p className="font-mono text-[10px] uppercase tracking-[.12em] text-ink/60">best WPM</p><form onSubmit={savePlayer} className="mt-12"><label className="font-mono text-[10px] uppercase tracking-[.12em] text-ink/60" htmlFor="player">Name for the wall</label><input id="player" value={player} onChange={(event) => setPlayer(event.target.value)} className="mt-3 w-full border-b border-ink/30 bg-transparent py-2 font-technical outline-none focus:border-terracotta" placeholder="your name" /></form></aside>
         </div>
       </section>
+
+      <section id="lessons" className="border-y border-ink/20 bg-[#e5ddcc] px-6 py-16 lg:px-10"><div className="mx-auto max-w-7xl"><p className="font-mono text-[10px] uppercase tracking-[.2em] text-terracotta">Lesson scrolls</p><h2 className="mt-2 font-display text-5xl text-charcoal">Build the hand.</h2><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{lessons.map(([name, keys], index) => <button key={name} onClick={() => chooseMode(index === 0 ? 'beginner' : index === 3 ? 'fast' : 'beginner')} className="lesson-card"><span>LESSON 0{index + 1}</span><strong>{name}</strong><code>{keys}</code><small>Start drill ↗</small></button>)}</div></div></section>
 
       <section id="history" className="border-t border-ink/20 bg-charcoal px-6 py-16 text-oat lg:px-10"><div className="mx-auto max-w-7xl"><div className="flex items-end justify-between"><div><p className="font-mono text-[10px] uppercase tracking-[.2em] text-terracotta">Notebook</p><h2 className="mt-2 font-display text-4xl">Recent attempts</h2></div><span className="font-mono text-[10px] uppercase tracking-[.15em] text-oat/50">{history.length} logged</span></div><div className="mt-8 divide-y divide-oat/15 border-y border-oat/15">{history.slice(0, 5).map((item, index) => <div key={`${item.date}-${index}`} className="grid grid-cols-[40px_1fr_auto] items-center gap-4 py-4 font-mono text-xs"><span className="text-terracotta">0{index + 1}</span><span>{characters.find((character) => character.id === item.character)?.name || 'Unknown coach'}</span><strong>{item.wpm} WPM <small className="ml-3 font-normal text-oat/50">{item.accuracy}%</small></strong></div>)}{history.length === 0 && <p className="py-8 font-technical text-sm text-oat/50">Your first clean run will land here.</p>}</div></div></section>
       <footer className="mx-auto flex max-w-7xl justify-between px-6 py-7 font-mono text-[9px] uppercase tracking-[.16em] text-ink/50 lg:px-10"><span>TypeAnime / Practice slowly</span><span>Made for the next run</span></footer>

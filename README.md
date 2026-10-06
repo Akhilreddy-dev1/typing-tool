@@ -7,6 +7,8 @@ TypeAnime is an aggressive anime typing trainer for building speed, accuracy, an
 - **⚔️ Soul Reaper landing page** - High-contrast manga texture, diagonal cuts, vertical editorial labels, and hard-offset interactions
 - **🧑‍🎤 Local character artwork** - Ichigo, Sung Jin-Woo, Gojo, and Tanjiro use the attached assets in `public/characters`
 - **⌨️ Live practice arena** - WPM, accuracy, errors, timer, passage highlighting, and coach quotes
+- **⚔️ Training modes** - Beginner, Fast Typing (30-second burst), Blind Typing, and Anime Quotes
+- **📚 Lesson scrolls** - Home row, top row, bottom row, and numbers/symbols drills
 - **📈 Local progress history** - Recent attempts and personal bests stay in the browser
 - **📱 Responsive by default** - Works on desktop, tablet, and mobile widths
 
@@ -22,9 +24,11 @@ Do not open the repository root `index.html` with a plain static server. It is t
 
 2. **Select your coach** - Choose Ichigo, Sung Jin-Woo, Gojo, or Tanjiro to change the quote and practice context
 
-3. **Start typing** - Click the passage field and type the highlighted line
+3. **Choose a test** - Use the Test Chamber for Beginner, Fast Typing, Blind Typing, or Anime Quotes. Blind Typing hides the passage while still measuring accuracy; Fast Typing ends after 30 seconds.
 
-4. **Build a streak** - Attempts and best WPM are stored locally in this browser
+4. **Choose a lesson** - Use the Lesson Scrolls for focused keyboard-row drills.
+
+5. **Build a streak** - Attempts and best WPM are stored locally in this browser
 
 ## 🎮 How to Use
 

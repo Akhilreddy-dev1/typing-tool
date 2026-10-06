@@ -60,6 +60,21 @@
   .soul-page .font-display { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
   .soul-page .font-technical { font-family: 'Rajdhani', sans-serif; }
   .soul-page .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .soul-page .mode-card { display: flex; min-height: 170px; flex-direction: column; align-items: flex-start; justify-content: flex-end; border: 1px solid #ffffff44; background: #0a0a0a; padding: 20px; text-align: left; color: #fff; transition: transform 100ms ease, background 100ms ease, box-shadow 100ms ease; }
+  .soul-page .mode-card:hover, .soul-page .mode-card-active { transform: translate(-4px, -4px); background: #e60012; box-shadow: 7px 7px 0 #fff; }
+  .soul-page .mode-card .mode-number { margin-bottom: auto; color: #00e5ff; font: 600 11px 'JetBrains Mono', monospace; }
+  .soul-page .mode-card strong { font: 600 28px/1 'Oswald', sans-serif; text-transform: uppercase; }
+  .soul-page .mode-card span:last-child { margin-top: 8px; color: #aaa; font: 500 13px 'Rajdhani', sans-serif; }
+  .soul-page .mode-card:hover span:last-child, .soul-page .mode-card-active span:last-child { color: #fff; }
+  .soul-page .blind-passage { min-height: 78px; position: relative; }
+  .soul-page .blind-passage span { opacity: 0; }
+  .soul-page .blind-passage:before { content: 'BLIND MODE / TRUST YOUR HANDS'; position: absolute; left: 0; top: 25px; color: #e60012; font: 600 12px 'JetBrains Mono', monospace; letter-spacing: .12em; }
+  .soul-page .lesson-card { display: flex; min-height: 180px; flex-direction: column; align-items: flex-start; border: 1px solid #0a0a0a; background: #fff; padding: 18px; text-align: left; color: #0a0a0a; box-shadow: 7px 7px 0 #e60012; transition: transform 100ms ease; }
+  .soul-page .lesson-card:hover { transform: translate(-4px, -4px); }
+  .soul-page .lesson-card span { color: #e60012; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .12em; }
+  .soul-page .lesson-card strong { margin-top: auto; font: 600 25px/1 'Oswald', sans-serif; text-transform: uppercase; }
+  .soul-page .lesson-card code { margin-top: 8px; color: #555; font: 12px 'JetBrains Mono', monospace; }
+  .soul-page .lesson-card small { margin-top: 18px; font: 600 10px 'JetBrains Mono', monospace; text-transform: uppercase; }
   @keyframes spirit-drift { from { transform: translate3d(-8px, 5px, 0); } to { transform: translate3d(14px, -12px, 0); } }
   @media (max-width: 640px) {
     .soul-page .hero-section { min-height: auto; }
